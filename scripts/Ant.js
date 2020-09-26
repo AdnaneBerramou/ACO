@@ -31,7 +31,6 @@ class Ant {
     }
 
     setV() {
-        console.log(this.state)
         const V = this.state;
         let undesirable = (V === 1)?'departure':'arrival';
         let desirable = (V === 1)?'arrival':'departure';
