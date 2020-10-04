@@ -1,103 +1,118 @@
 class Ant {
-    constructor(cell) {
-        this.exploration = .8;
-        this.confiance = .5;
-        this.evaporation = .9999;
-        this.bruit = .7;
-        this.state = 1;
-        this.cell = cell;
-        this.pheromone = 0;
-        this.lives = 3;
-    }
+	constructor(cell, map) {
+		this.state = "1";
+		this.exploration = 0.8;
+		this.evaporation = 0.9999;
+		this.bruit = 0.7;
+		this.cell = cell;
+		this.map = map;
+		this.lives = 3;
+	}
 
-    cellByData(x, y) {
-        let cell = map.cellByData(x, y);
-        return (cell === null) ? null : (cell.cellType === 'wall') ? null : cell;
-    }
+	get N() {
+		let x = this.cell.X;
+		let y = this.cell.Y;
+		let top = this.map.cellByData(x, y - 1);
+		let left = this.map.cellByData(x + 1, y);
+		let bottom = this.map.cellByData(x, y + 1);
+		let right = this.map.cellByData(x - 1, y);
 
-    getMaxV(N, V) {
-        let toReturn = null;
-        let curr = -Infinity;
-        for (let i = 0; i < N.length; i++) {
-            if (curr <= N[i]['V'+V]) {
-                toReturn = N[i];
-            }
-        }
-        return toReturn;
-    }
+		return [top, left, bottom, right].filter(v => v !== null && v !== undefined).sort(() => Math.random() - 0.5);
+	}
 
-    getAvgV(N, V) {
-        return (1/4) * N.map(v=>v['V'+V]).reduce((a, b) => a + b);
-    }
+	getMaxV(N, V) {
+		N.sort(() => Math.random() - 0.5);
+		let toReturn = null;
+		let curr = -Infinity;
 
-    setV() {
-        const V = this.state;
-        let undesirable = (V === 1)?'departure':'arrival';
-        let desirable = (V === 1)?'arrival':'departure';
-        map.map[map.map.indexOf(this.cell)]['V'+V] = (this.cell.cellType === undesirable)?-1
-                                                        :(this.cell.cellType === desirable)?1
-                                                        :(this.evaporation * (this.bruit * this.getMaxV(this.N, V)['V'+V]) + (1 - this.bruit) * this.getAvgV(this.N, V));
-        let c = map.map[map.map.indexOf(this.cell)];
-        let cell = document.querySelector('[data-x="'+c.cellX+'"][data-y="'+c.cellY+'"]');
-        cell.innerHTML = '<div class="cell-content"><span class="v1">'+c.V1+'</span>/<span class="v2">'+c.V2+'</span></div>';
-    }
+		for (let i = 0; i < N.length; i++) {
+			if (curr < N[i]["V" + V]) {
+				toReturn = N[i];
+				curr = N[i]["V" + V];
+			}
+		}
 
-    move() {
-        this.setV();
-        let cell = document.querySelector('[data-x="'+this.cell.cellX+'"][data-y="'+this.cell.cellY+'"]');
-        cell.classList.add('ant-'+this.state);
-        let prevCell = this.cell;
-        let prevDomCell = cell;
+		return toReturn;
+	}
 
-        if(Math.random() <= this.exploration) {
-            this.cell = this.N[Math.floor(Math.random() * this.N.length)];
-        } else {
-            this.cell = this.getMaxV(this.N, this.state);
-        }
+	getAvgV(N, V) {
+		return (1 / N.length) * N.map(v => v["V" + V]).reduce((a, b) => a + b);
+	}
 
-        cell = document.querySelector('[data-x="'+this.cell.cellX + '"][data-y="'+this.cell.cellY+'"]');
-        prevDomCell.classList.remove('ant-1', 'ant-2');
-        cell.classList.add('ant-' + this.state);
-        if (this.state === 1) {
-            if (this.cell.cellType === 'arrival') {
-                console.log(this.cell)
-                this.state = 2;
-                map.map[map.map.indexOf(this.cell)].foodLeft--;
-                prevDomCell.dataset.food = map.map[map.map.indexOf(this.cell)].foodLeft;
-            }
-        } else {
-            if (this.cell.cellType === 'departure') {
-                this.state = 1;
-                this.lives--;
-            }
-        }
-    }
+	setV() {
+		const index = this.map.map.indexOf(this.cell);
+		const typeCurrCell = this.cell.type;
+		const V = this.state;
+		let V1 =
+			this.evaporation *
+			(this.bruit * this.getMaxV(this.N, "1").V1 + (1 - this.bruit) * this.getAvgV(this.N, "1"));
+		let V2 =
+			this.evaporation *
+			(this.bruit * this.getMaxV(this.N, "2").V2 + (1 - this.bruit) * this.getAvgV(this.N, "2"));
 
-    get N() {
-        let x = this.cell.cellX;
-        let y = this.cell.cellY;
-        let top = this.cellByData(x, y-1);
-        let left = this.cellByData(x+1, y);
-        let bottom = this.cellByData(x, y+1);
-        let right = this.cellByData(x-1, y);
-        return [top, left, bottom, right].filter(v=>v!==null);
-    }
-}
-const ants = [];
-for (let i = 0; i < 100; i++) {
-    let ant = new Ant(map.cellByData(0,0));
-    ants.push(ant);
-    ant.move();
-}
-// while(map.map[index].foodLeft > 0){
-let c = 0;
-while( c < 1000){
-    for (const i in ants) {
-        setTimeout(() => {
-            if(ants[i].lives>0) {
-                ants[i].move()
-            }
-        }, 1000);
-    }
-    c++;
+		if (typeCurrCell === "departure") {
+			V1 = -1;
+			V2 = 1;
+		} else if (typeCurrCell === "arrival") {
+			V1 = 1;
+			V2 = -1;
+		}
+		this.map.map[index].V1 = V1;
+		this.map.map[index].V2 = V2;
+	}
+
+	deliverFood() {
+		this.lives--;
+		this.state = "1";
+		const index = this.map.map.indexOf(this.cell);
+		this.map.map[index].delivredFood++;
+	}
+
+	pickFood() {
+		this.state = "2";
+		let index = this.map.map.indexOf(this.cell);
+		this.map.map[index].foodLeft--;
+		// if (this.map.map[index].foodLeft === 0) {
+		// 	this.map.map[index].type = "empty";
+		// 	this.map.map[index].dom.classList.remove("arrival");
+		// 	let emptys = this.map.map.filter(v => v.type === "empty");
+		// 	let newArrival = emptys[Math.floor(Math.random() * emptys.length)];
+		// 	index = this.map.map.indexOf(newArrival);
+		// 	this.map.map[index].type = "arrival";
+		// 	this.map.map[index].foodLeft = 100;
+		// 	this.map.map[index].dom.classList.add("arrival");
+		// }
+	}
+
+	printV() {
+		const V1 = this.cell.V1.toString().substring(0, 6);
+		const V2 = this.cell.V2.toString().substring(0, 6);
+		this.cell.dom.innerHTML =
+			"<div class='cell-content'><span class='v1'>" + V1 + "</span>/<span class='v2'>" + V2 + "</span></div>";
+	}
+
+	move() {
+		this.setV();
+		// this.printV();
+		const prevCell = this.cell;
+		prevCell.dom.classList.add("ant-" + this.state);
+		const N = this.N.filter(v => v.type !== "wall");
+
+		if (Math.random() <= this.exploration) {
+			let rand = Math.floor(Math.random() * N.length);
+			this.cell = N[rand];
+		} else {
+			this.cell = this.getMaxV(N, this.state);
+		}
+
+		prevCell.dom.classList.remove("ant-1", "ant-2");
+		const index = this.map.map.indexOf(this.map.map.filter((v, k, s) => v.foodLeft !== undefined)[0]);
+		if (this.state === "1" && this.cell.type === "arrival" && this.map.map[index].foodLeft > 0) {
+			this.pickFood();
+		} else if (this.state === "2" && this.cell.type === "departure") {
+			this.deliverFood();
+		}
+
+		this.cell.dom.classList.add("ant-" + this.state);
+	}
 }
