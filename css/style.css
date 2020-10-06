@@ -1,17 +1,26 @@
-.map {
-  width: 100%;
-  -webkit-box-shadow: 0 0 15px black;
-          box-shadow: 0 0 15px black;
-  margin: auto;
+* {
+  font-family: monospace !important;
 }
 
-.cell {
+h1 {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 35px;
+}
+
+.map {
+  width: 100%;
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+.map .cell {
   width: 100%;
   padding-bottom: 100%;
   position: relative;
 }
 
-.cell-content {
+.map .cell-content {
   word-break: break-all;
   position: absolute;
   width: 100%;
@@ -19,31 +28,85 @@
   font-size: 7px;
 }
 
-.wall {
+.map .wall {
   background-color: black;
 }
 
-.departure {
+.map .empty {
+  background-color: white;
+}
+
+.map .departure {
   background-color: green;
 }
 
-.arrival {
+.map .arrival {
   background-color: yellow;
 }
 
-.v1 {
+.map .v1 {
   color: red;
 }
 
-.v2 {
+.map .v2 {
   color: blue;
 }
 
-.ant-1 {
+.map .ant-1 {
   background-color: teal;
 }
 
-.ant-2 {
+.map .ant-2 {
   background-color: cyan;
+}
+
+.infos {
+  font-size: 8px;
+}
+
+#divI {
+  margin-top: 45px;
+  margin-bottom: 45px;
+}
+
+#divI input {
+  border-top: solid 1px transparent;
+  border-left: solid 1px transparent;
+  border-right: solid 1px transparent;
+  border-bottom: solid 1px black;
+  border-radius: 0;
+  outline: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+#divI #bI {
+  height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#divI #bI:active {
+  -webkit-filter: brightness(50%);
+          filter: brightness(50%);
+}
+
+#divI #bI:hover {
+  background-color: white;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+#error {
+  color: #d9534f;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+#success {
+  color: #5cb85c;
+  font-size: 10px;
+  font-weight: 600;
 }
 /*# sourceMappingURL=style.css.map */
