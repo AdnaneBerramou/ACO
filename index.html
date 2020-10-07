@@ -1,45 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-			crossorigin="anonymous"
-		/>
-		<link rel="stylesheet" href="./css/style.css" />
-		<title>ACO</title>
-	</head>
-	<body>
-		<main class="container">
-			<div class="row" id="divI">
-				<h1 class="col-12">ACO</h1>
-				<label class="col-7 offset-1" for="hI">
-					Hauteur/Largeur:<br /><span class="infos"
-						>(en nombre de cellules/cases, min 10, max 50)</span
-					></label
-				>
-				<input class="offset-1 col-1" maxlength="2" type="text" name="height" id="hI" />
-				<div class="w-100"></div>
-				<label class="col-7 offset-1" for="dI">
-					Densite des "murs":
-					<br /><span class="infos"
-						>(en pourcentage, 50% etant deja grande valeur, il n'est pas conseille de mettre plus de
-						40%)</span
-					>
-				</label>
-				<input class="offset-1 col-1" maxlength="2" type="text" name="density" id="dI" />
-				<div class="w-100"></div>
-				<p class="col-8 col-lg-9" id="msg"></p>
-				<button id="bI" class="col-3 col-lg-2">submit</button>
-			</div>
-		</main>
 
-		<script src="./scripts/Map.js"></script>
-		<script src="./scripts/Cell.js"></script>
-		<script src="./scripts/Ant.js"></script>
-		<script src="./scripts/script.js"></script>
-	</body>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+	<link rel="stylesheet" href="./css/style.css" />
+	<title>ACO</title>
+</head>
+
+<body>
+	<main class="container">
+		<div class="row" id="divI">
+			<a href="https://github.com/AdnaneBerramou/ACO" class="col-1 offset-11">
+				<img src="img/github.svg" alt="logo github" width="25px">
+			</a>
+			<h1 class="col-12">ACO</h1>
+			<label class="col-7 offset-1" for="hI">
+				Hauteur/Largeur:<br /><span class="infos">(en nombre de cellules/cases, min 10, max 50)</span></label>
+			<input class="offset-1 col-1" maxlength="2" type="text" name="height" id="hI" />
+			<div class="w-100"></div>
+			<label class="col-7 offset-1" for="dI">
+				Densite des "murs":
+				<br /><span class="infos">(en pourcentage, 50% etant deja grande valeur, il n'est pas conseille de
+					mettre plus de 40%)</span>
+			</label>
+			<input class="offset-1 col-1" maxlength="2" type="text" name="density" id="dI" />
+			<div class="w-100"></div>
+			<p class="col-8 col-lg-9" id="msg"></p>
+			<button id="bI" class="col-3 col-lg-2">submit</button>
+		</div>
+	</main>
+
+	<script src="./scripts/Map.js"></script>
+	<script src="./scripts/Cell.js"></script>
+	<script src="./scripts/Ant.js"></script>
+	<script src="./scripts/script.js"></script>
+</body>
+
 </html>

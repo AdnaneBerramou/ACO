@@ -37,27 +37,19 @@ h1 {
 }
 
 .map .departure {
-  background-color: green;
+  background-color: #09d309;
 }
 
 .map .arrival {
-  background-color: yellow;
-}
-
-.map .v1 {
-  color: red;
-}
-
-.map .v2 {
-  color: blue;
+  background-color: red;
 }
 
 .map .ant-1 {
-  background-color: teal;
+  background-color: rgba(0, 128, 128, 0.7);
 }
 
 .map .ant-2 {
-  background-color: cyan;
+  background-color: rgba(0, 255, 255, 0.7);
 }
 
 .infos {

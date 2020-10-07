@@ -66,6 +66,7 @@ function handleError(
 	if (document.getElementById("error") === null) {
 		msgP.appendChild(error);
 	}
+	btn.disabled = false;
 }
 
 function handleFinish(msg = "Les fourmis ont réussi à épuiser le stock de nourriture !") {
@@ -75,6 +76,7 @@ function handleFinish(msg = "Les fourmis ont réussi à épuiser le stock de nou
 	if (document.getElementById("success") === null) {
 		msgP.appendChild(success);
 	}
+	btn.disabled = false;
 }
 
 function noMsg() {
